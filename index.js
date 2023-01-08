@@ -27,8 +27,8 @@ function guardar (){
    console.log(JSON.stringify(datos))
    localStorage.setItem('usuarios', JSON.stringify(datos))
 
-    document.getElementById("nombre").value = '' ;
-    document.getElementById("numero").value = ''; 
+   document.getElementById("nombre").value = '' ;
+   document.getElementById("numero").value = ''; 
 
     render()
 }
@@ -39,15 +39,44 @@ function render(){
     let datos = JSON.parse(localStorage.getItem("usuarios")) ? JSON.parse(localStorage.getItem("usuarios")) : []
     console.log(datos)
     cuerpo.innerHTML = ''
-    datos.forEach(element => {
+    datos.forEach((element, index) => {
         console.log(element)
         cuerpo.innerHTML += ` <tr>
                                 <td>${element.nombre}</td>
                                 <td>${element.numero}</td>
-                                <td class="text-center"><a class="btnEditar btn btn-primary">Editar</a><a class="btnBorrar btn btn-danger">Borrar</a></td>
+                                <td class="text-center">
+                                <button class="btnEditar btn btn-primary">Editar</button>
+                                <button onclick="borrar(${index})" class="btnBorrar btn btn-danger">Borrar</button>
+                                </td>
                               </tr>
         
                             `
     });
 }
+
+function borrar(position){
+    let datos = JSON.parse(localStorage.getItem("usuarios")) ? JSON.parse(localStorage.getItem("usuarios")) : []
+    datos.splice(position, 1)
+    JSON.stringify(datos)
+    localStorage.setItem('usuarios', JSON.stringify(datos))
+    render()
+}
+
 render()
+
+//const on = (element, event, selector, handler) => {
+//    element.addEventListener(event, e => {
+//        if(e.target.closest(selector)){
+//            handler(e)
+//        }
+//    })
+//}
+//
+//on(document, 'click', '.btnBorrar', e =>{
+//    const fila = e.target.parentNode.parentNode
+//    const id = fila.firstElementChild.innerHTML
+//    alertify.confirm("This is a donfirm dialog.",
+//    function(){
+//
+//    })
+//})
